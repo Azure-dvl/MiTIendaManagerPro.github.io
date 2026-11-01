@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mi Tienda Manager Pro — Descarga la APK</title>
+<meta name="description" content="Mi Tienda Manager Pro: controla ventas, stock, almacén, caja y nómina desde tu Android. Descarga la APK y solicita tu licencia." />
+<link rel="icon" type="image/png" href="assets/icono-apk.png" />
+<style>
+  /* Paleta «Esmeralda Contemporáneo» (la misma de la app) */
+  :root{
+    --esmeralda-50:#ECFDF5; --esmeralda-100:#D1FAE5; --esmeralda-400:#34D399;
+    --esmeralda-700:#047857; --esmeralda-800:#065F46; --esmeralda-950:#022C22;
+    --azul-400:#38BDF8; --azul-600:#0284C7;
+    --morado-400:#A78BFA; --morado-600:#7C3AED;
+    --ambar-400:#FBBF24; --ambar-600:#D97706;
+    --rojo-600:#DC2626;
+    --niebla:#F6F8F7; --humo:#EDEFEE; --piedra:#D3D8D6; --grafito:#454C49; --tinta:#0B1210;
+    --carbon:#141917; --piedra-oscura:#232A27; --niebla-oscura:#C7CECB;
+    --radius:18px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+    background:var(--tinta); color:var(--niebla);
+    line-height:1.6; overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+
+  /* ── Fondo animado (aurora esmeralda) ─────────────────────────── */
+  .aurora{
+    position:fixed; inset:0; z-index:-2; overflow:hidden;
+    background:radial-gradient(1200px 600px at 80% -10%, rgba(4,120,87,.35), transparent 60%),
+               radial-gradient(900px 500px at -10% 30%, rgba(2,136,199,.18), transparent 60%),
+               var(--tinta);
+  }
+  .aurora::before,.aurora::after{
+    content:""; position:absolute; width:60vmax; height:60vmax; border-radius:50%;
+    filter:blur(80px); opacity:.35; animation:drift 24s ease-in-out infinite alternate;
+  }
+  .aurora::before{background:radial-gradient(circle,var(--esmeralda-700),transparent 60%); top:-20vmax; right:-10vmax;}
+  .aurora::after{background:radial-gradient(circle,var(--azul-600),transparent 60%); bottom:-25vmax; left:-15vmax; animation-delay:-12s;}
+  @keyframes drift{
+    from{transform:translate3d(0,0,0) scale(1);}
+    to{transform:translate3d(-6vmax,4vmax,0) scale(1.15);}
+  }
+
+  /* ── Aparición al hacer scroll ─────────────────────────────────── */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.visible{opacity:1; transform:none;}
+
+  /* ── Header ───────────────────────────────────────────────────── */
+  header{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(11,18,16,.65);
+    border-bottom:1px solid rgba(199,206,203,.12);
+  }
+  .nav{max-width:1120px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px;}
+  .brand{display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.3px;}
+  .brand img{width:42px; height:42px; border-radius:12px; box-shadow:0 0 0 2px rgba(52,211,153,.5);}
+  .brand span b{color:var(--esmeralda-400);}
+  .nav-links{display:flex; gap:22px; font-size:.95rem; color:var(--niebla-oscura);}
+  .nav-links a{transition:color .25s;}
+  .nav-links a:hover{color:var(--esmeralda-400);}
+  .btn{
+    display:inline-flex; align-items:center; gap:10px; justify-content:center;
+    padding:12px 22px; border-radius:999px; font-weight:700; font-size:.95rem;
+    cursor:pointer; border:none; transition:transform .25s, box-shadow .25s, background .25s;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--esmeralda-400),var(--esmeralda-700));
+    color:#03150f; box-shadow:0 10px 30px -10px rgba(52,211,153,.7);
+  }
+  .btn-primary:hover{transform:translateY(-3px) scale(1.02); box-shadow:0 16px 40px -12px rgba(52,211,153,.9);}
+  .btn-ghost{background:rgba(199,206,203,.08); color:var(--niebla); border:1px solid rgba(199,206,203,.25);}
+  .btn-ghost:hover{background:rgba(199,206,203,.16); transform:translateY(-2px);}
+
+  /* ── Hero ─────────────────────────────────────────────────────── */
+  .hero{max-width:1120px; margin:0 auto; padding:70px 20px 40px; display:grid; grid-template-columns:1.15fr .85fr; gap:48px; align-items:center;}
+  .pill{
+    display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:999px;
+    background:rgba(52,211,153,.12); border:1px solid rgba(52,211,153,.4);
+    color:var(--esmeralda-400); font-size:.82rem; font-weight:600; margin-bottom:22px;
+  }
+  .pill .dot{width:8px; height:8px; border-radius:50%; background:var(--esmeralda-400); animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,.6);}50%{box-shadow:0 0 0 8px rgba(52,211,153,0);}}
+  h1{font-size:clamp(2.2rem,5vw,3.4rem); line-height:1.12; font-weight:900; margin-bottom:18px;}
+  h1 .grad{
+    background:linear-gradient(120deg,var(--esmeralda-400),var(--azul-400) 55%,var(--morado-400));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    background-size:200% auto; animation:shine 6s linear infinite;
+  }
+  @keyframes shine{to{background-position:200% center;}}
+  .hero p.lead{color:var(--niebla-oscura); font-size:1.08rem; max-width:52ch; margin-bottom:30px;}
+  .hero-cta{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:26px;}
+  .stats{display:flex; gap:28px; flex-wrap:wrap; color:var(--niebla-oscura); font-size:.88rem;}
+  .stats b{display:block; font-size:1.35rem; color:var(--esmeralda-400);}
+
+  /* Banner / teléfono flotante */
+  .banner{
+    position:relative; border-radius:28px; padding:26px;
+    background:linear-gradient(160deg,rgba(36,42,39,.9),rgba(20,25,23,.75));
+    border:1px solid rgba(199,206,203,.14);
+    box-shadow:0 40px 90px -40px rgba(0,0,0,.9);
+    animation:float 6s ease-in-out infinite;
+  }
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+  .banner .halo{
+    position:absolute; inset:auto; width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle,rgba(52,211,153,.35),transparent 70%);
+    filter:blur(20px); top:-40px; right:-30px; z-index:0;
+  }
+  .banner img.app-icon{width:120px; height:120px; border-radius:28px; margin:6px auto 18px; position:relative; z-index:1;
+    box-shadow:0 0 0 4px rgba(52,211,153,.35), 0 24px 50px -18px rgba(4,120,87,.9);}
+  .banner h3{text-align:center; font-size:1.15rem; position:relative; z-index:1;}
+  .banner .sub{text-align:center; color:var(--niebla-oscura); font-size:.85rem; margin:6px 0 18px; position:relative; z-index:1;}
+  .banner .dl{
+    position:relative; z-index:1; display:flex; flex-direction:column; gap:10px;
+    background:rgba(3,21,15,.55); border:1px solid rgba(52,211,153,.3);
+    border-radius:16px; padding:16px; text-align:center;
+  }
+  .banner .dl small{color:var(--niebla-oscura);}
+
+  /* ── Secciones ────────────────────────────────────────────────── */
+  section.block{max-width:1120px; margin:0 auto; padding:60px 20px;}
+  .section-title{text-align:center; margin-bottom:44px;}
+  .section-title h2{font-size:clamp(1.6rem,3.5vw,2.3rem); font-weight:800;}
+  .section-title p{color:var(--niebla-oscura); margin-top:8px;}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px;}
+  .card{
+    background:linear-gradient(160deg,rgba(36,42,39,.7),rgba(20,25,23,.55));
+    border:1px solid rgba(199,206,203,.12); border-radius:var(--radius);
+    padding:26px; transition:transform .3s, border-color .3s, box-shadow .3s;
+  }
+  .card:hover{transform:translateY(-8px); border-color:rgba(52,211,153,.5); box-shadow:0 24px 50px -30px rgba(52,211,153,.55);}
+  .card .ico{
+    width:52px; height:52px; border-radius:14px; display:grid; place-items:center; font-size:1.5rem; margin-bottom:16px;
+    background:rgba(52,211,153,.12); border:1px solid rgba(52,211,153,.3);
+  }
+  .card h3{font-size:1.1rem; margin-bottom:8px;}
+  .card p{color:var(--niebla-oscura); font-size:.93rem;}
+  .c-azul .ico{background:rgba(56,189,248,.12); border-color:rgba(56,189,248,.35);}
+  .c-morado .ico{background:rgba(167,139,250,.12); border-color:rgba(167,139,250,.35);}
+  .c-ambar .ico{background:rgba(251,191,36,.12); border-color:rgba(251,191,36,.35);}
+
+  /* ── Galería ──────────────────────────────────────────────────── */
+  .gallery{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;}
+  .shot{
+    position:relative; aspect-ratio:9/16; border-radius:16px; overflow:hidden;
+    background:linear-gradient(160deg,var(--piedra-oscura),var(--carbon));
+    border:1px dashed rgba(199,206,203,.3); display:grid; place-items:center; text-align:center;
+    color:var(--niebla-oscura); font-size:.85rem; padding:14px; transition:transform .3s, border-color .3s;
+  }
+  .shot:hover{transform:translateY(-6px) scale(1.01); border-color:var(--esmeralda-400);}
+  .shot img{width:100%; height:100%; object-fit:cover;}
+  .shot .ph{display:flex; flex-direction:column; gap:8px; align-items:center;}
+  .shot .ph span{font-size:1.8rem;}
+
+  /* ── Licencia / WhatsApp ──────────────────────────────────────── */
+  .licencia{
+    border-radius:26px; padding:44px 30px; text-align:center;
+    background:linear-gradient(140deg,rgba(4,120,87,.28),rgba(2,44,34,.5));
+    border:1px solid rgba(52,211,153,.35);
+  }
+  .licencia h2{font-size:clamp(1.5rem,3vw,2.1rem); margin-bottom:10px;}
+  .licencia p{color:var(--niebla-oscura); max-width:60ch; margin:0 auto 26px;}
+  .wa-row{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+  .wa{
+    display:inline-flex; align-items:center; gap:10px; padding:14px 26px; border-radius:999px;
+    background:#25D366; color:#062b16; font-weight:800; transition:transform .25s, box-shadow .25s;
+    box-shadow:0 12px 30px -12px rgba(37,211,102,.8);
+  }
+  .wa:hover{transform:translateY(-3px) scale(1.03);}
+  .wa.alt{background:var(--esmeralda-400);}
+  .wa svg{width:22px; height:22px;}
+
+  /* ── Footer ───────────────────────────────────────────────────── */
+  footer{border-top:1px solid rgba(199,206,203,.12); margin-top:60px; padding:34px 20px; text-align:center; color:var(--niebla-oscura); font-size:.9rem;}
+  footer .brand-foot{display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:10px; color:var(--niebla); font-weight:700;}
+  footer .brand-foot img{width:30px; height:30px; border-radius:9px;}
+  footer .links{display:flex; gap:18px; justify-content:center; flex-wrap:wrap; margin:8px 0 14px;}
+  footer .links a:hover{color:var(--esmeralda-400);}
+  footer small{color:var(--grafito);}
+
+  /* ── Responsivo ───────────────────────────────────────────────── */
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr; padding-top:44px; text-align:center;}
+    .hero p.lead{margin-inline:auto;}
+    .hero-cta,.stats{justify-content:center;}
+    .nav-links{display:none;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important;}
+    .reveal{opacity:1; transform:none;}
+  }
+</style>
+</head>
+<body>
+<div class="aurora"></div>
+
+<!-- ══ Header ═══════════════════════════════════════════════════ -->
+<header>
+  <nav class="nav">
+    <div class="brand">
+      <img src="assets/icono-apk.png" alt="Mi Tienda Manager Pro" />
+      <span>Mi Tienda Manager <b>Pro</b></span>
+    </div>
+    <div class="nav-links">
+      <a href="#inicio">Inicio</a>
+      <a href="#funciones">Funciones</a>
+      <a href="#galeria">Galería</a>
+      <a href="#licencia">Licencia</a>
+    </div>
+    <a class="btn btn-primary" href="https://github.com/Azure-dvl/MiTiendaManagerPro/releases/latest/download/MiTiendaManagerPro.apk" download>
+      ⬇ Descargar APK
+    </a>
+  </nav>
+</header>
+
+<!-- ══ Hero ═════════════════════════════════════════════════════ -->
+<section class="hero" id="inicio">
+  <div>
+    <span class="pill"><span class="dot"></span> Versión disponible para Android</span>
+    <h1>Tu tienda, <span class="grad">bajo control</span><br/>en tu teléfono.</h1>
+    <p class="lead">
+      Administra ventas, stock, almacén, caja, cuadre de turno y nómina de tus
+      trabajadores desde una sola app. Rápida, offline y pensada para el día a día
+      de tu negocio.
+    </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://github.com/Azure-dvl/MiTiendaManagerPro/releases/latest/download/MiTiendaManagerPro.apk" download>
+        ⬇ Descargar APK
+      </a>
+      <a class="btn btn-ghost" href="#funciones">Ver funciones</a>
+    </div>
+    <div class="stats">
+      <div><b>3</b>roles: admin, gestor y cajero</div>
+      <div><b>IPV</b>por producto y cierre sellado</div>
+      <div><b>Offline</b>funciona sin internet</div>
+    </div>
+  </div>
+
+  <div class="banner">
+    <div class="halo"></div>
+    <img class="app-icon" src="assets/icono-apk.png" alt="Icono de la APK" />
+    <h3>Mi Tienda Manager Pro</h3>
+    <p class="sub">Gestión completa de tu negocio</p>
+    <div class="dl">
+      <a class="btn btn-primary" href="https://github.com/Azure-dvl/MiTiendaManagerPro/releases/latest/download/MiTiendaManagerPro.apk" download>
+        ⬇ Descargar APK
+      </a>
+      <small>Instálala y ábrela · no necesitas cuenta</small>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Funciones ════════════════════════════════════════════════ -->
+<section class="block" id="funciones">
+  <div class="section-title reveal">
+    <h2>Todo tu negocio en una app</h2>
+    <p>Funciones pensadas para tiendas reales: del mostrador al almacén.</p>
+  </div>
+  <div class="grid">
+    <div class="card reveal">
+      <div class="ico">🧾</div>
+      <h3>Ventas y cobros</h3>
+      <p>Cobra en efectivo o transferencia, con código de operación y cierre de turno sellado.</p>
+    </div>
+    <div class="card c-azul reveal">
+      <div class="ico">📦</div>
+      <h3>Stock e IPV</h3>
+      <p>Informe de ventas y existencias por producto, con inicio, entradas, stock final y utilidad.</p>
+    </div>
+    <div class="card reveal">
+      <div class="ico">🏬</div>
+      <h3>Almacén y traspasos</h3>
+      <p>Entradas, salidas, mermas y traspasos a tienda con buscador e historial completo.</p>
+    </div>
+    <div class="card c-ambar reveal">
+      <div class="ico">💵</div>
+      <h3>Caja y cuadre</h3>
+      <p>Cuadre de efectivo y transferencia, faltantes y sobrantes, con resumen del cierre del turno.</p>
+    </div>
+    <div class="card c-morado reveal">
+      <div class="ico">👥</div>
+      <h3>Nómina y utilidades</h3>
+      <p>Salarios, faltantes y utilidades retenidas de tus trabajadores, con avisos hasta liquidar.</p>
+    </div>
+    <div class="card c-azul reveal">
+      <div class="ico">📊</div>
+      <h3>Op. del día y Flujo</h3>
+      <p>Operaciones del día, gastos, entradas, salidas y flujo de caja claros y al día.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Galería ══════════════════════════════════════════════════ -->
+<section class="block" id="galeria">
+  <div class="section-title reveal">
+    <h2>Galería de la app</h2>
+    <p>Capturas reales de Mi Tienda Manager Pro.</p>
+  </div>
+  <div class="gallery">
+    <!-- Reemplaza cada .shot por: <div class="shot"><img src="assets/shot-1.png" alt="..."/></div> -->
+    <div class="shot reveal"><div class="ph"><span>🖼️</span>Arranca aquí con tus capturas</div></div>
+    <div class="shot reveal"><div class="ph"><span>🖼️</span>Ventas y cobro</div></div>
+    <div class="shot reveal"><div class="ph"><span>🖼️</span>IPV por producto</div></div>
+    <div class="shot reveal"><div class="ph"><span>🖼️</span>Almacén</div></div>
+    <div class="shot reveal"><div class="ph"><span>🖼️</span>Cuadre de turno</div></div>
+    <div class="shot reveal"><div class="ph"><span>🖼️</span>Nómina</div></div>
+  </div>
+</section>
+
+<!-- ══ Licencia / WhatsApp ══════════════════════════════════════ -->
+<section class="block" id="licencia">
+  <div class="licencia reveal">
+    <h2>¿Quieres tu licencia?</h2>
+    <p>
+      Escríbenos por WhatsApp y te contamos cómo conseguir la licencia de
+      <b>Mi Tienda Manager Pro</b> para tu negocio. Atendido por
+      <b>Batsoft Solutions</b>.
+    </p>
+    <div class="wa-row">
+      <a class="wa" href="https://wa.me/5359766747?text=Hola%2C%20quiero%20la%20licencia%20de%20Mi%20Tienda%20Manager%20Pro" target="_blank" rel="noopener">
+        <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-1.5c1.7.9 3.6 1.4 5.8 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3zm5.9 17c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-2.9-1.3-4.8-4.2-5-4.4-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5s.8 1.9.9 2c.1.2.1.3 0 .5s-.2.4-.3.6l-.5.6c-.2.2-.3.3-.1.6.2.3.9 1.5 1.9 2.4 1.3 1.2 2.4 1.6 2.7 1.8.3.1.5.1.7-.1.2-.2.8-1 1-1.3.2-.3.4-.3.7-.2.3.1 1.7.8 2 .9.3.2.5.1.6.2z"/></svg>
+        +53 59766747
+      </a>
+      <a class="wa alt" href="https://wa.me/5354395242?text=Hola%2C%20quiero%20la%20licencia%20de%20Mi%20Tienda%20Manager%20Pro" target="_blank" rel="noopener">
+        <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-1.5c1.7.9 3.6 1.4 5.8 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3zm5.9 17c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-2.9-1.3-4.8-4.2-5-4.4-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5s.8 1.9.9 2c.1.2.1.3 0 .5s-.2.4-.3.6l-.5.6c-.2.2-.3.3-.1.6.2.3.9 1.5 1.9 2.4 1.3 1.2 2.4 1.6 2.7 1.8.3.1.5.1.7-.1.2-.2.8-1 1-1.3.2-.3.4-.3.7-.2.3.1 1.7.8 2 .9.3.2.5.1.6.2z"/></svg>
+        +53 54395242
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Footer ═══════════════════════════════════════════════════ -->
+<footer>
+  <div class="brand-foot">
+    <img src="assets/icono-apk.png" alt="Batsoft Solutions" />
+    <span>Mi Tienda Manager Pro</span>
+  </div>
+  <div class="links">
+    <a href="#funciones">Funciones</a>
+    <a href="#galeria">Galería</a>
+    <a href="#licencia">Licencia</a>
+    <a href="https://github.com/Azure-dvl/MiTiendaManagerPro" target="_blank" rel="noopener">GitHub</a>
+  </div>
+  <small>© 2026 Batsoft Solutions. Todos los derechos reservados.</small>
+</footer>
+
+<!-- Aparición al hacer scroll -->
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
