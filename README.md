@@ -9,7 +9,7 @@ Landing oficial de descarga de **Mi Tienda Manager Pro** (APK Android), publicad
 
 ## Descargar la APK
 
-**➡️ [Descargar MiTiendaManagerPro.apk](https://github.com/Azure-dvl/MiTIendaManagerPro.github.io/releases/download/1.0/MiTiendaManagerPro.apk)**
+**➡️ [Descargar MiTiendaManagerPro.apk](https://github.com/Azure-dvl/MiTiendaManagerPro/releases/latest/download/MiTiendaManagerPro.apk)**
 
 La APK se distribuye desde las
 [Releases](https://github.com/Azure-dvl/MiTiendaManagerPro/releases) del repositorio
